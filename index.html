@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Zahra Essam">
+<title>مسار التعلم الرقمي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;800;900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════ */
+:root {
+  --navy:        #061022;
+  --navy-2:      #0B1A35;
+  --navy-3:      #0F2347;
+  --navy-4:      #162D56;
+  --blue:        #2563EB;
+  --blue-2:      #1D4ED8;
+  --blue-3:      #3B82F6;
+  --blue-lt:     #DBEAFE;
+  --blue-xlt:    #EFF6FF;
+  --blue-ac:     #60A5FA;
+  --blue-glow:   rgba(37,99,235,.25);
+  --green:       #059669;  --green-lt:#D1FAE5;  --green-ac:#10B981;
+  --orange:      #D97706;  --orange-lt:#FEF3C7;  --orange-ac:#F59E0B;
+  --purple:      #7C3AED;  --purple-lt:#EDE9FE;  --purple-ac:#8B5CF6;
+  --s50:  #F8FAFC;
+  --s100: #F1F5F9;
+  --s200: #E2E8F0;
+  --s300: #CBD5E1;
+  --s400: #94A3B8;
+  --s500: #64748B;
+  --s600: #475569;
+  --s700: #334155;
+  --s800: #1E293B;
+  --s900: #0F172A;
+  --white: #FFFFFF;
+  --fh: 'Tajawal', sans-serif;
+  --fb: 'Cairo', sans-serif;
+  --fm: 'IBM Plex Mono', monospace;
+  --r-xs: 4px; --r-sm: 8px; --r: 12px; --r-lg: 18px; --r-xl: 24px;
+  --sh-sm: 0 1px 4px rgba(0,0,0,.08);
+  --sh:    0 4px 16px rgba(0,0,0,.1);
+  --sh-lg: 0 10px 40px rgba(0,0,0,.14);
+  --transition: .22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ══════════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:var(--fb);
+  background:var(--s50);
+  color:var(--s800);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--fb);cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--s100)}
+::-webkit-scrollbar-thumb{background:var(--s300);border-radius:3px}
+
+/* ══════════════════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════════════════ */
+.page-wrap{
+  max-width:1060px;
+  margin:0 auto;
+  padding:0 20px 80px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ══════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════ */
+.site-header{
+  padding:32px 0 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  position:relative;
+}
+.site-header::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--s200),transparent);
+}
+
+/* Byte Logo Mark */
+.byte-logo{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.byte-logo-ring{
+  width:76px;height:76px;
+  background:linear-gradient(145deg,var(--navy-2),var(--navy-4));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid rgba(37,99,235,.35);
+  box-shadow:0 0 0 6px rgba(37,99,235,.07), 0 8px 28px rgba(37,99,235,.2);
+  position:relative;
+}
+.byte-logo-ring svg{width:36px;height:36px;}
+.byte-logo-ring::before{
+  content:'';
+  position:absolute;inset:-8px;
+  border-radius:50%;
+  border:1.5px dashed rgba(96,165,250,.22);
+  animation:rotateRing 18s linear infinite;
+}
+@keyframes rotateRing{to{transform:rotate(360deg)}}
+.byte-name{
+  font-family:var(--fm);font-size:11px;letter-spacing:4px;
+  color:var(--s400);text-transform:uppercase;
+}
+.byte-caption{
+  font-family:var(--fh);font-size:22px;font-weight:800;
+  color:var(--s900);letter-spacing:-.3px;
+  text-align:center;line-height:1.2;
+}
+.byte-caption span{color:var(--blue);}
+.byte-sub{
+  font-size:13px;color:var(--s500);font-weight:500;text-align:center;margin-top:-4px;
+}
+
+/* Curriculum Access Button */
+.curriculum-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--navy-2),var(--navy-4));
+  color:var(--white);
+  border:1px solid rgba(37,99,235,.3);
+  border-radius:var(--r-lg);
+  padding:12px 24px;
+  font-family:var(--fh);font-size:14px;font-weight:700;
+  transition:all var(--transition);
+  box-shadow:0 4px 18px rgba(37,99,235,.2);
+  position:relative;overflow:hidden;
+}
+.curriculum-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(59,130,246,.08));
+  opacity:0;transition:opacity var(--transition);
+}
+.curriculum-btn:hover{
+  box-shadow:0 6px 28px rgba(37,99,235,.35);
+  transform:translateY(-1px);
+  border-color:rgba(96,165,250,.5);
+}
+.curriculum-btn:hover::before{opacity:1;}
+.curriculum-btn svg{width:18px;height:18px;color:var(--blue-ac);flex-shrink:0;}
+.curriculum-btn .cb-label{color:var(--s300);font-size:11px;font-weight:400;margin-top:1px;}
+.curriculum-btn-inner{display:flex;flex-direction:column;gap:1px;}
+.cb-pending-note{
+  font-family:var(--fm);font-size:9px;letter-spacing:1.5px;
+  background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.2);
+  border-radius:100px;padding:3px 10px;color:var(--blue-ac);
+  margin-top:2px;width:fit-content;
+}
+
+/* ══════════════════════════════════════════════════
+   MAIN CONTENT — CHAPTER TREE
+══════════════════════════════════════════════════ */
+.tree-area{
+  flex:1;
+  padding:36px 0 0;
+}
+
+/* Section eyebrow */
+.tree-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:32px;
+}
+.te-line{flex:1;height:1px;background:var(--s200);}
+.te-text{
+  font-family:var(--fm);font-size:10px;letter-spacing:3px;
+  color:var(--s400);font-weight:700;white-space:nowrap;text-transform:uppercase;
+}
+
+/* Chapter rows grid */
+.chapters-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:0;
+}
+@media(max-width:900px){.chapters-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.chapters-grid{grid-template-columns:1fr;}}
+
+/* ══════════════════════════════════════════════════
+   CHAPTER BLOCK
+══════════════════════════════════════════════════ */
+.chapter-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+}
+
+/* Chapter header button */
+.chapter-btn{
+  width:100%;
+  background:var(--white);
+  border:1.5px solid var(--s200);
+  border-radius:var(--r);
+  padding:16px 14px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  cursor:pointer;
+  transition:all var(--transition);
+  box-shadow:var(--sh-sm);
+  position:relative;
+  overflow:hidden;
+}
+.chapter-btn::before{
+  content:'';position:absolute;
+  top:0;right:0;left:0;height:3px;
+  background:var(--ch-color, var(--blue));
+  opacity:.7;
+  transition:opacity var(--transition);
+}
+.chapter-btn:hover{
+  box-shadow:var(--sh);
+  border-color:rgba(0,0,0,.1);
+  transform:translateY(-1px);
+}
+.chapter-btn:hover::before{opacity:1;}
+.chapter-btn.open{
+  border-color:var(--ch-color, var(--blue));
+  box-shadow:0 4px 18px rgba(0,0,0,.1), 0 0 0 3px rgba(0,0,0,.04);
+}
+.chapter-btn.open::before{opacity:1;}
+
+.ch-icon-wrap{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ch-bg, rgba(37,99,235,.1));
+  border:2px solid var(--ch-border, rgba(37,99,235,.2));
+  transition:all var(--transition);
+  flex-shrink:0;
+}
+.ch-icon-wrap svg{width:22px;height:22px;color:var(--ch-color, var(--blue));}
+.chapter-btn.open .ch-icon-wrap{
+  background:var(--ch-color, var(--blue));
+  border-color:var(--ch-color, var(--blue));
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+}
+.chapter-btn.open .ch-icon-wrap svg{color:#fff;}
+
+.ch-num{
+  font-family:var(--fm);font-size:9px;letter-spacing:2px;
+  color:var(--ch-color, var(--blue));font-weight:700;
+  text-transform:uppercase;
+}
+.ch-title{
+  font-family:var(--fh);font-size:14px;font-weight:800;
+  color:var(--s900);text-align:center;line-height:1.3;
+}
+.ch-lessons-count{
+  font-family:var(--fm);font-size:10px;
+  color:var(--s400);letter-spacing:.5px;
+}
+.ch-chevron{
+  width:18px;height:18px;
+  color:var(--s400);
+  transition:transform var(--transition);
+  flex-shrink:0;
+}
+.chapter-btn.open .ch-chevron{transform:rotate(180deg);color:var(--ch-color,var(--blue));}
+
+/* ══════════════════════════════════════════════════
+   BRANCH TREE (vertical)
+══════════════════════════════════════════════════ */
+.chapter-branch{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  position:relative;
+  padding-bottom:8px;
+}
+.chapter-branch.open{display:flex;animation:branchOpen .3s ease both;}
+@keyframes branchOpen{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Trunk line */
+.branch-trunk{
+  width:2px;
+  background:linear-gradient(to bottom, var(--ch-color, var(--blue)), rgba(0,0,0,.06));
+  flex-shrink:0;
+  border-radius:1px;
+}
+
+/* Node connector */
+.node-row{
+  display:flex;
+  align-items:center;
+  width:100%;
+  gap:0;
+  position:relative;
+}
+.node-h-line{
+  height:2px;
+  background:var(--ch-color, var(--blue));
+  flex:1;
+  opacity:.35;
+  flex-shrink:0;
+}
+.node-h-line.right-line{order:0;}
+.node-h-line.left-spacer{visibility:hidden;}
+
+/* Lesson Node */
+.lesson-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  padding:0 6px;
+  gap:2px;
+  animation:nodeIn .28s ease both;
+}
+@keyframes nodeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+
+.lesson-card{
+  width:100%;
+  background:var(--white);
+  border:1.5px solid var(--s200);
+  border-radius:var(--r-sm);
+  padding:11px 13px;
+  display:flex;align-items:center;gap:10px;
+  transition:all var(--transition);
+  box-shadow:var(--sh-sm);
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+  position:relative;
+  overflow:hidden;
+}
+.lesson-card::before{
+  content:'';position:absolute;
+  right:0;top:0;bottom:0;width:3px;
+  background:var(--ch-color,var(--blue));
+  opacity:0;transition:opacity var(--transition);
+}
+.lesson-card:hover::before{opacity:1;}
+.lesson-card:hover{
+  box-shadow:var(--sh);
+  border-color:var(--s300);
+  transform:translateX(-2px);
+}
+.lesson-card.active-card{
+  border-color:var(--ch-color, var(--blue));
+  background:linear-gradient(135deg, rgba(37,99,235,.03), var(--white));
+}
+.lesson-card.active-card::before{opacity:1;}
+.lesson-card.pending-card{
+  opacity:.55;
+  filter:grayscale(40%);
+  cursor:not-allowed;
+  pointer-events:none;
+}
+.lesson-card.pending-card:hover{transform:none;box-shadow:var(--sh-sm);}
+
+.lc-icon{
+  width:32px;height:32px;border-radius:var(--r-xs);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  background:var(--ch-bg, rgba(37,99,235,.08));
+  transition:all var(--transition);
+}
+.lesson-card.active-card .lc-icon{background:var(--ch-color,var(--blue));}
+.lc-icon svg{width:15px;height:15px;color:var(--ch-color,var(--blue));}
+.lesson-card.active-card .lc-icon svg{color:#fff;}
+.lesson-card.pending-card .lc-icon{background:var(--s100);}
+.lesson-card.pending-card .lc-icon svg{color:var(--s400);}
+
+.lc-info{flex:1;min-width:0;}
+.lc-num{font-family:var(--fm);font-size:9px;letter-spacing:1px;color:var(--s400);margin-bottom:2px;}
+.lc-title{font-size:12.5px;font-weight:700;color:var(--s800);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lesson-card.active-card .lc-title{color:var(--s900);}
+.lesson-card.pending-card .lc-title{color:var(--s400);}
+
+.lc-status{flex-shrink:0;}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--ch-color, var(--blue));
+  box-shadow:0 0 0 2px rgba(37,99,235,.15);
+}
+.status-dot.pending{background:var(--s300);box-shadow:none;}
+.status-dot.pulse{animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 2px rgba(37,99,235,.15)}50%{box-shadow:0 0 0 4px rgba(37,99,235,.3)}}
+
+/* Pending tooltip */
+.pending-tooltip{
+  font-family:var(--fm);font-size:10px;letter-spacing:.5px;
+  color:var(--s400);text-align:center;
+  padding:2px 0 4px;
+  display:none;
+}
+.lesson-node:hover .pending-tooltip{display:block;}
+
+/* ══════════════════════════════════════════════════
+   MILESTONE NODES (Mind Map + Exam)
+══════════════════════════════════════════════════ */
+.milestone-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6px;width:100%;padding:0 6px;
+  animation:nodeIn .28s ease both;
+}
+.milestone-card{
+  border-radius:var(--r-sm);
+  padding:10px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  text-align:center;
+  cursor:pointer;
+  transition:all var(--transition);
+  text-decoration:none;
+  color:inherit;
+  position:relative;
+  border:1.5px solid;
+}
+.milestone-card.mindmap{
+  background:rgba(16,185,129,.05);
+  border-color:rgba(16,185,129,.2);
+}
+.milestone-card.exam{
+  background:rgba(217,119,6,.05);
+  border-color:rgba(217,119,6,.2);
+}
+.milestone-card:hover{transform:translateY(-2px);box-shadow:var(--sh);}
+.milestone-card.pending-m{
+  opacity:.5;filter:grayscale(40%);
+  cursor:not-allowed;pointer-events:none;
+}
+.milestone-card.pending-m:hover{transform:none;box-shadow:none;}
+.ms-icon{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.milestone-card.mindmap  .ms-icon{background:rgba(16,185,129,.12);}
+.milestone-card.exam     .ms-icon{background:rgba(217,119,6,.1);}
+.milestone-card.mindmap  .ms-icon svg{color:var(--green-ac);width:15px;height:15px;}
+.milestone-card.exam     .ms-icon svg{color:var(--orange-ac);width:15px;height:15px;}
+.ms-label{font-size:11px;font-weight:700;color:var(--s700);line-height:1.3;}
+.ms-sublabel{font-family:var(--fm);font-size:9px;letter-spacing:1px;color:var(--s400);}
+
+/* ══════════════════════════════════════════════════
+   TRUNK SEGMENT wrapper
+══════════════════════════════════════════════════ */
+.trunk-seg{width:2px;min-height:14px;flex-shrink:0;}
+
+/* ══════════════════════════════════════════════════
+   PROGRESS SUMMARY BAR
+══════════════════════════════════════════════════ */
+.progress-bar-wrap{
+  background:var(--white);
+  border:1px solid var(--s200);
+  border-radius:var(--r);
+  padding:16px 20px;
+  margin-bottom:28px;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:var(--sh-sm);
+}
+.pb-info{flex:1;min-width:0;}
+.pb-title{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--s900);margin-bottom:4px;}
+.pb-sub{font-size:12px;color:var(--s500);}
+.pb-track{
+  width:200px;height:5px;background:var(--s100);border-radius:3px;overflow:hidden;flex-shrink:0;
+}
+.pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--blue-3));transition:width .5s ease;}
+.pb-pct{
+  font-family:var(--fm);font-size:12px;font-weight:700;color:var(--blue);
+  flex-shrink:0;width:36px;text-align:center;
+}
+@media(max-width:600px){.progress-bar-wrap{flex-wrap:wrap;}.pb-track{width:100%;}}
+
+/* ══════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════ */
+.site-footer{
+  padding:20px 0 10px;
+  border-top:1px solid var(--s200);
+  margin-top:40px;
+  text-align:center;
+  font-family:var(--fm);font-size:11px;letter-spacing:2.5px;
+  color:var(--s400);
+}
+
+/* ══════════════════════════════════════════════════
+   LEGEND
+══════════════════════════════════════════════════ */
+.legend-row{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.legend-item{
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--s500);font-weight:600;
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE TWEAKS
+══════════════════════════════════════════════════ */
+@media(max-width:900px){
+  .chapters-grid{gap:14px;}
+  .ch-title{font-size:13px;}
+}
+@media(max-width:520px){
+  .page-wrap{padding:0 14px 60px;}
+  .chapter-btn{padding:14px 12px;}
+  .pb-track{order:3;width:100%;}
+  .byte-caption{font-size:18px;}
+  .curriculum-btn{padding:10px 18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ══════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════ -->
+  <header class="site-header">
+
+    <!-- Byte Logo -->
+    <div class="byte-logo">
+      <div class="byte-logo-ring">
+        <!-- Byte SVG character — professional robot head -->
+        <svg viewBox="0 0 36 36" fill="none" stroke="rgba(96,165,250,.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="9" width="22" height="18" rx="4"/>
+          <circle cx="13.5" cy="18" r="2.5" fill="rgba(96,165,250,.4)" stroke="none"/>
+          <circle cx="22.5" cy="18" r="2.5" fill="rgba(96,165,250,.4)" stroke="none"/>
+          <path d="M13 24h10" stroke-width="1.5"/>
+          <path d="M18 9V6M14 6h8" stroke-width="1.5"/>
+          <path d="M7 22l-3 2M29 22l3 2"/>
+        </svg>
+      </div>
+      <div class="byte-name">BYTE · المرشد الرقمي</div>
+    </div>
+
+    <div>
+      <div class="byte-caption">مسار التعلم الرقمي<br><span>Digital Learning Path</span></div>
+    </div>
+
+    <!-- Curriculum Book Access -->
+    <div id="curriculum-btn-wrap"></div>
+
+  </header><!-- /header -->
+
+
+  <!-- ══════════════════════════════════════
+       MAIN TREE AREA
+  ══════════════════════════════════════ -->
+  <main class="tree-area">
+
+    <!-- Progress -->
+    <div class="progress-bar-wrap">
+      <div style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--blue-xlt);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" width="18" height="18" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="pb-info">
+        <div class="pb-title">تقدّمك في المنهج</div>
+        <div class="pb-sub" id="progress-sub">جارٍ الحساب...</div>
+      </div>
+      <div class="pb-track"><div class="pb-fill" id="pb-fill" style="width:0%"></div></div>
+      <div class="pb-pct" id="pb-pct">0%</div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);box-shadow:0 0 0 2px rgba(37,99,235,.2)"></div>متاح الآن</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--s300)"></div>قريباً · ستُضاف بعد الشرح</div>
+      <div class="legend-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-ac)" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        خريطة ذهنية
+      </div>
+      <div class="legend-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange-ac)" stroke-width="2" width="14" height="14"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        امتحان الوحدة
+      </div>
+    </div>
+
+    <!-- Eyebrow -->
+    <div class="tree-eyebrow">
+      <div class="te-line"></div>
+      <div class="te-text">CURRICULUM TREE · مسار الفصول الدراسية</div>
+      <div class="te-line"></div>
+    </div>
+
+    <!-- Chapters Grid -->
+    <div class="chapters-grid" id="chapters-grid"></div>
+
+  </main>
+
+  <footer class="site-footer">Zahra Essam</footer>
+
+</div><!-- /page-wrap -->
+
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ════════════════════════════════════════════════
+   DASHBOARD DATA — Edit links here
+════════════════════════════════════════════════ */
+const DASHBOARD_DATA = {
+
+  curriculum: {
+    title: 'الكتاب الرقمي الشامل',
+    subtitle: 'Digital Textbook',
+    link: 'https://zahraessam.github.io/Computer_Foundation_Book-V1/'
+  },
+
+  chapters: [
+    {
+      id: 1,
+      num: 'CH.01',
+      title: 'عالم الكمبيوتر',
+      subtitle: 'THE BLUE CHAPTER',
+      color: '#2563EB',
+      colorRgb: '37,99,235',
+      icon: 'monitor',
+      lessons: [
+        { title: 'Intro to Computers',    titleAr: 'مقدمة للكمبيوتر',    link: 'https://zahraessam.github.io/CF-Ch1_Lesson1-What_is_a_computer-/' },
+        { title: 'Hardware & Software',   titleAr: 'Hardware vs Software',        link: 'https://zahraessam.github.io/CF-Ch1_Lesson2-Hardware_vs_Software/' },
+        { title: 'IPO Cycle',             titleAr: 'IPO Cycle',       link: "https://zahraessam.github.io/-CF-Ch1_Lesson3-IPO_Cycle/" },
+        { title: 'Data vs Information',   titleAr: 'Data vs Information',     link: "https://zahraessam.github.io/CF-Ch1_Lesson4-Data_vs_Information/" },
+      ],
+      summary: {
+        mindmap: "https://zahraessam.github.io/CF-CH1_Mindmap/",
+        exam: "https://zahraessam.github.io/CF-CH1_Test/",
+      },
+    },
+    {
+      id: 2,
+      num: 'CH.02',
+      title: 'لغة الكهرباء',
+      subtitle: 'THE GREEN CHAPTER',
+      color: '#059669',
+      colorRgb: '5,150,105',
+      icon: 'cpu',
+      lessons: [
+        { title: 'History & Transistors', titleAr: 'التاريخ والترانزستور', link: null },
+        { title: 'Binary Language',       titleAr: 'اللغة الثنائية',       link: null },
+        { title: 'Bits & Bytes',          titleAr: 'البتات والبايتات',     link: null },
+        { title: 'Compilers',             titleAr: 'المترجمون',            link: null },
+      ],
+      summary: {
+        mindmap: "null",
+        exam: null,
+      },
+    },
+    {
+      id: 3,
+      num: 'CH.03',
+      title: 'فكر كمبرمج',
+      subtitle: 'THE ORANGE CHAPTER',
+      color: '#D97706',
+      colorRgb: '217,119,6',
+      icon: 'code',
+      lessons: [
+        { title: 'Algorithms',            titleAr: 'الخوارزميات',          link: null },
+        { title: 'Pseudocode',            titleAr: 'الكود الوهمي',         link: null },
+        { title: 'Flowcharts',            titleAr: 'مخططات التدفق',        link: null },
+        { title: 'Logic & Conditions',    titleAr: 'المنطق والشروط',       link: null },
+      ],
+      summary: {
+        mindmap: null,
+        exam: null,
+      },
+    },
+    {
+      id: 4,
+      num: 'CH.04',
+      title: 'أدوات المبرمج',
+      subtitle: 'THE PURPLE CHAPTER',
+      color: '#7C3AED',
+      colorRgb: '124,58,237',
+      icon: 'tool',
+      lessons: [
+        { title: 'Variables',             titleAr: 'المتغيرات',            link: null },
+        { title: 'Conditions & Loops',    titleAr: 'الشروط والحلقات',      link: null },
+        { title: 'Arrays & Functions',    titleAr: 'المصفوفات والدوال',    link: null },
+        { title: 'SDLC',                  titleAr: 'دورة التطوير',         link: null },
+      ],
+      summary: {
+        mindmap: null,
+        exam: null,
+      },
+    },
+  ],
+};
+
+/* ════════════════════════════════════════════════
+   SVG ICONS
+════════════════════════════════════════════════ */
+const SVG = {
+  monitor: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  cpu:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>`,
+  code:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  tool:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,
+  lesson:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`,
+  lock:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`,
+  open:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  book:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+  mindmap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 9V3M3 12h6M15 12h6M12 15v6"/><circle cx="12" cy="3" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/><circle cx="12" cy="21" r="1.5"/></svg>`,
+  exam:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>`,
+  chevron: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`,
+};
+
+/* ════════════════════════════════════════════════
+   BUILD CURRICULUM BUTTON
+════════════════════════════════════════════════ */
+function buildCurriculumBtn() {
+  const { title, subtitle, link } = DASHBOARD_DATA.curriculum;
+  const isPending = !link;
+  const wrap = document.getElementById('curriculum-btn-wrap');
+
+  const inner = `
+    <div class="curriculum-btn-inner">
+      <span style="font-size:14px;font-weight:700;">${title}</span>
+      <span class="cb-label">${subtitle}</span>
+      ${isPending ? '<span class="cb-pending-note">COMING SOON · قريباً</span>' : ''}
+    </div>
+  `;
+
+  if (isPending) {
+    wrap.innerHTML = `<button class="curriculum-btn" style="opacity:.65;cursor:not-allowed;filter:grayscale(20%)" disabled>
+      ${SVG.book}
+      ${inner}
+    </button>`;
+  } else {
+    wrap.innerHTML = `<a href="${link}" target="_blank" rel="noopener" class="curriculum-btn">
+      ${SVG.book}
+      ${inner}
+      ${SVG.open}
+    </a>`;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   BUILD CHAPTERS
+════════════════════════════════════════════════ */
+function buildChapters() {
+  const grid = document.getElementById('chapters-grid');
+
+  DASHBOARD_DATA.chapters.forEach((ch, ci) => {
+    const col = document.createElement('div');
+    col.className = 'chapter-block';
+    col.id = `ch-block-${ch.id}`;
+
+    const totalLessons = ch.lessons.length;
+    const activeLessons = ch.lessons.filter(l => l.link).length;
+    const isChActive = activeLessons > 0;
+
+    /* ── Chapter header button ── */
+    const btn = document.createElement('button');
+    btn.className = 'chapter-btn' + (isChActive ? '' : ' grayscale-ch');
+    btn.id = `ch-btn-${ch.id}`;
+    btn.style.setProperty('--ch-color', ch.color);
+    btn.style.setProperty('--ch-bg', `rgba(${ch.colorRgb},.1)`);
+    btn.style.setProperty('--ch-border', `rgba(${ch.colorRgb},.2)`);
+    if (!isChActive) btn.style.opacity = '.6';
+    btn.innerHTML = `
+      <div class="ch-icon-wrap">${SVG[ch.icon]}</div>
+      <div class="ch-num">${ch.num}</div>
+      <div class="ch-title">${ch.title}</div>
+      <div class="ch-lessons-count">${activeLessons}/${totalLessons} متاح</div>
+      <div class="ch-chevron">${SVG.chevron}</div>
+    `;
+
+    /* ── Branch ── */
+    const branch = document.createElement('div');
+    branch.className = 'chapter-branch';
+    branch.id = `ch-branch-${ch.id}`;
+    branch.style.setProperty('--ch-color', ch.color);
+    branch.style.setProperty('--ch-bg', `rgba(${ch.colorRgb},.1)`);
+
+    /* trunk top */
+    const trunkTop = document.createElement('div');
+    trunkTop.className = 'trunk-seg';
+    trunkTop.style.background = `linear-gradient(to bottom, ${ch.color}, rgba(${ch.colorRgb},.15))`;
+    trunkTop.style.height = '18px';
+    branch.appendChild(trunkTop);
+
+    /* lesson nodes */
+    ch.lessons.forEach((lesson, li) => {
+      const isPending = !lesson.link;
+      const nodeDelay = li * 0.06;
+
+      const node = document.createElement('div');
+      node.className = 'lesson-node';
+
+      const cardTag = isPending ? 'div' : 'a';
+      const card = document.createElement(cardTag);
+      card.className = 'lesson-card' + (isPending ? ' pending-card' : ' active-card');
+      card.style.animationDelay = `${nodeDelay}s`;
+      if (!isPending) { card.href = lesson.link; card.target = '_blank'; card.rel = 'noopener'; }
+      card.innerHTML = `
+        <div class="lc-icon">${isPending ? SVG.lock : SVG.lesson}</div>
+        <div class="lc-info">
+          <div class="lc-num">L${li + 1}</div>
+          <div class="lc-title" title="${lesson.titleAr}">${lesson.titleAr}</div>
+        </div>
+        <div class="lc-status">
+          <div class="status-dot${isPending ? ' pending' : (li === 0 ? ' pulse' : '')}"></div>
+        </div>
+      `;
+
+      node.appendChild(card);
+
+      if (isPending) {
+        const tip = document.createElement('div');
+        tip.className = 'pending-tooltip';
+        tip.textContent = 'ستُضاف بعد الشرح';
+        node.appendChild(tip);
+      }
+
+      branch.appendChild(node);
+
+      /* trunk between lessons */
+      if (li < ch.lessons.length - 1) {
+        const t = document.createElement('div');
+        t.className = 'trunk-seg';
+        t.style.background = `rgba(${ch.colorRgb},.2)`;
+        t.style.height = '10px';
+        branch.appendChild(t);
+      }
+    });
+
+    /* milestone separator */
+    const mSep = document.createElement('div');
+    mSep.className = 'trunk-seg';
+    mSep.style.background = `rgba(${ch.colorRgb},.15)`;
+    mSep.style.height = '14px';
+    branch.appendChild(mSep);
+
+    /* milestones */
+    const msRow = document.createElement('div');
+    msRow.className = 'milestone-row';
+    msRow.style.animationDelay = `${ch.lessons.length * 0.06 + 0.1}s`;
+
+    const mmPending = !ch.summary.mindmap;
+    const exPending = !ch.summary.exam;
+
+    const mmTag = mmPending ? 'div' : 'a';
+    const mm = document.createElement(mmTag);
+    mm.className = 'milestone-card mindmap' + (mmPending ? ' pending-m' : '');
+    if (!mmPending) { mm.href = ch.summary.mindmap; mm.target = '_blank'; mm.rel = 'noopener'; }
+    mm.innerHTML = `
+      <div class="ms-icon">${SVG.mindmap}</div>
+      <div class="ms-label">خريطة ذهنية</div>
+      <div class="ms-sublabel">MIND MAP</div>
+    `;
+
+    const exTag = exPending ? 'div' : 'a';
+    const ex = document.createElement(exTag);
+    ex.className = 'milestone-card exam' + (exPending ? ' pending-m' : '');
+    if (!exPending) { ex.href = ch.summary.exam; ex.target = '_blank'; ex.rel = 'noopener'; }
+    ex.innerHTML = `
+      <div class="ms-icon">${SVG.exam}</div>
+      <div class="ms-label">امتحان الوحدة</div>
+      <div class="ms-sublabel">UNIT EXAM</div>
+    `;
+
+    msRow.appendChild(mm);
+    msRow.appendChild(ex);
+    branch.appendChild(msRow);
+
+    /* final trunk */
+    const trunkBot = document.createElement('div');
+    trunkBot.className = 'trunk-seg';
+    trunkBot.style.background = `rgba(${ch.colorRgb},.08)`;
+    trunkBot.style.height = '8px';
+    branch.appendChild(trunkBot);
+
+    /* Toggle logic */
+    btn.addEventListener('click', () => {
+      const isOpen = branch.classList.contains('open');
+      btn.classList.toggle('open', !isOpen);
+      branch.classList.toggle('open', !isOpen);
+    });
+
+    col.appendChild(btn);
+    col.appendChild(branch);
+    grid.appendChild(col);
+  });
+
+  /* Auto-open Chapter 1 */
+  setTimeout(() => {
+    document.getElementById('ch-btn-1').click();
+  }, 200);
+}
+
+/* ════════════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════════════ */
+function buildProgress() {
+  let total = 0, active = 0;
+  DASHBOARD_DATA.chapters.forEach(ch => {
+    ch.lessons.forEach(l => {
+      total++;
+      if (l.link) active++;
+    });
+  });
+  const pct = total ? Math.round((active / total) * 100) : 0;
+  document.getElementById('pb-fill').style.width = pct + '%';
+  document.getElementById('pb-pct').textContent = pct + '%';
+  document.getElementById('progress-sub').textContent = `${active} من أصل ${total} درس متاح`;
+}
+
+/* ════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+(function init() {
+  buildCurriculumBtn();
+  buildChapters();
+  buildProgress();
+})();
+</script>
+</body>
+</html>
